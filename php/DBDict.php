@@ -1,22 +1,27 @@
 <?php
-/**
- * 数据库字典类
- *
- * @website http://www.okuer.com
- * @email lvxiang119@gmail.com
- * @author Lvxiang
- */
 
-class DBManager{
+/**
+ * DBDict: 数据库字典类
+ *
+ * Author : Lv Xiang
+ * Website: http://www.okuer.com
+ *
+ * Usage:
+ *      $config=['host'=>'127.0.0.1','port'=>'3306','user'=>'root','pass'=>'','name'=>''];
+ ×      $db_manager=DBDict::getInstance($config);
+ ×      $db_manager->exportDB();
+ */
+class DBDict{
 
     protected static $db_manager=null;
+
     protected $db_handle=null;
     private $db_host=null;
     private $db_port=null;
     private $db_user=null;
     private $db_pass=null;
     private $db_name=null;
-    private $db_dsn=null;
+
 
     /**
      * Init
@@ -35,21 +40,19 @@ class DBManager{
         $this->db_user=$user;
         $this->db_pass=$pass;
         $this->db_name=$name;
-
-        $this->db_dsn='mysql:host='.$this->db_host.';dbname='.$this->db_name;
-
     }
 
     /**
      * 获取类的实例
      *
      * @param $options
-     * @return DBManager|null
+     * @return DBDict|null
      */
     public static function getInstance($options){
 
         if(!self::$db_manager){
-            self::$db_manager=new DBManager($options['host'],$options['port'],$options['user'],$options['pass'],$options['name']);
+
+            self::$db_manager=new DBDict($options['host'],$options['port'],$options['user'],$options['pass'],$options['name']);
         }
         return self::$db_manager;
     }
@@ -63,7 +66,8 @@ class DBManager{
 
         if(!$this->db_handle){
             try{
-                $this->db_handle=new \PDO($this->db_dsn,$this->db_user,$this->db_pass);
+                $dsn='mysql:host='.$this->db_host.';dbname='.$this->db_name;
+                $this->db_handle=new \PDO($dsn,$this->db_user,$this->db_pass);
                 $this->db_handle->query('SET NAMES UTF8');
             }catch (Exception $e){
                 die("Error >> ".$e->getMessage().PHP_EOL);
@@ -231,7 +235,7 @@ class DBManager{
     public static function printDemo(){
 
         $config=['host'=>'127.0.0.1','port'=>'3306','user'=>'root','pass'=>'aa','name'=>'virtual-station'];
-        $db_manager=DBManager::getInstance($config);
+        $db_manager=DBDict::getInstance($config);
         $db_manager->exportDB();
 
     }

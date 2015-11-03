@@ -8,8 +8,8 @@
  *
  * Usage:
  *      $config=['host'=>'127.0.0.1','port'=>'3306','user'=>'root','pass'=>'','name'=>''];
- ×      $db_manager=DBDict::getInstance($config);
- ×      $db_manager->exportDB();
+ *      $db_manager=DBDict::getInstance($config);
+ *      $db_manager->exportDB();
  */
 class DBDict{
 
